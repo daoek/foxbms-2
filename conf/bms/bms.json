@@ -19,8 +19,8 @@
   },
   "slave-unit": {
     "analog-front-end": {
-      "ic": "6813-1",
-      "manufacturer": "ltc"
+      "ic": "mc33775a",
+      "manufacturer": "nxp"
     },
     "temperature-sensor": {
       "manufacturer": "epcos",
