@@ -4,7 +4,7 @@
       "state-estimation": {
         "soc": "none",
         "soe": "none",
-        "sof": "none",
+        "sof": "trapezoid",
         "soh": "none"
       }
     },
