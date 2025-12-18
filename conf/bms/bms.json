@@ -2,9 +2,9 @@
   "application": {
     "algorithm": {
       "state-estimation": {
-        "soc": "counting",
-        "soe": "counting",
-        "sof": "trapezoid",
+        "soc": "none",
+        "soe": "none",
+        "sof": "none",
         "soh": "none"
       }
     },
@@ -23,9 +23,9 @@
       "manufacturer": "nxp"
     },
     "temperature-sensor": {
-      "manufacturer": "epcos",
-      "method": "polynomial",
-      "model": "b57251v5103j060"
+      "manufacturer": "fake",
+      "method": "lookup-table",
+      "model": "none"
     }
   }
 }
