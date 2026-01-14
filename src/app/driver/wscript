@@ -81,6 +81,7 @@ def build(bld):
         os.path.join("can", "cbs", "tx-cyclic", "can_cbs_tx_bms-state-details.c"),
         os.path.join("can", "cbs", "tx-cyclic", "can_cbs_tx_string-state.c"),
         os.path.join("can", "cbs", "tx-cyclic", "can_cbs_tx_string-state-estimation.c"),
+        os.path.join("can", "cbs", "tx-cyclic", "can_cbs_tx_string-soc.c"),
         os.path.join("can", "cbs", "tx-cyclic", "can_cbs_tx_pack-values-p0.c"),
         os.path.join("can", "cbs", "tx-cyclic", "can_cbs_tx_pack-values-p1.c"),
         os.path.join("can", "cbs", "tx-cyclic", "can_cbs_tx_string-values-p0.c"),

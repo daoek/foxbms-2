@@ -260,6 +260,20 @@
 #define CANTX_STRING_STATE_ESTIMATION_DLC        (CAN_DEFAULT_DLC)
 /**@}*/
 
+/** CAN message properties for string SOC values. Required properties are:
+ *  - ID
+ *  - Identifier type (standard or extended)
+ *  - Period and phase in ms
+ *  - Endianness
+ *  - data length @{*/
+#define CANTX_STRING_SOC_ID         (0x246u)
+#define CANTX_STRING_SOC_ID_TYPE    (CAN_STANDARD_IDENTIFIER_11_BIT)
+#define CANTX_STRING_SOC_PERIOD_ms  (1000u)
+#define CANTX_STRING_SOC_PHASE_ms   (20u)
+#define CANTX_STRING_SOC_ENDIANNESS (CAN_BIG_ENDIAN)
+#define CANTX_STRING_SOC_DLC        (CAN_DEFAULT_DLC)
+/**@}*/
+
 /* composed Tx  messages */
 
 /* AXIVION Disable Style Generic-NoUnsafeMacro: These macros MUST only be used
@@ -418,6 +432,17 @@
     },                                                                                                     \
     {                                                                                                      \
         .period = CANTX_STRING_STATE_ESTIMATION_PERIOD_ms, .phase = CANTX_STRING_STATE_ESTIMATION_PHASE_ms \
+    }
+
+#define CANTX_STRING_SOC_MESSAGE                                                 \
+    {                                                                            \
+        .id         = CANTX_STRING_SOC_ID,                                       \
+        .idType     = CANTX_STRING_SOC_ID_TYPE,                                  \
+        .dlc        = CANTX_STRING_SOC_DLC,                                      \
+        .endianness = CANTX_STRING_SOC_ENDIANNESS,                               \
+    },                                                                           \
+    {                                                                            \
+        .period = CANTX_STRING_SOC_PERIOD_ms, .phase = CANTX_STRING_SOC_PHASE_ms \
     }
 /* AXIVION Enable Style Generic-NoUnsafeMacro */
 

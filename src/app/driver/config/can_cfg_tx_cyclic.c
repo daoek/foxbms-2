@@ -96,6 +96,7 @@ const CAN_TX_MESSAGE_TYPE_s can_txMessages[] = {
      &CANTX_StringMinimumMaximumValues,
      &cantx_stringMinimumMaximumValuesMux},
     {CAN_NODE_1, CANTX_STRING_STATE_ESTIMATION_MESSAGE, &CANTX_StringStateEstimation, &cantx_stringStateEstimationMux},
+    {CAN_NODE_1, CANTX_STRING_SOC_MESSAGE, &CANTX_StringSoc, NULL_PTR},
     {CAN_NODE_1, CANTX_STRING_VALUES_P0_MESSAGE, &CANTX_StringValuesP0, &cantx_stringValuesP0Mux},
     {CAN_NODE_1, CANTX_STRING_VALUES_P1_MESSAGE, &CANTX_StringValuesP1, &cantx_stringValuesP1Mux}};
 
