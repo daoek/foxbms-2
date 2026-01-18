@@ -94,6 +94,7 @@ def build(bld):
         os.path.join("..", "driver", "meas"),
         os.path.join("..", "driver", "pex"),
         os.path.join("..", "driver", "pwm"),
+        os.path.join("..", "driver", "rtt"),
         os.path.join("..", "driver", "rtc"),
         os.path.join("..", "driver", "sbc"),
         os.path.join("..", "driver", "sbc", "fs8x_driver"),
@@ -110,7 +111,11 @@ def build(bld):
         os.path.join("..", "main", "include"),
     ]
     includes.extend(bld.env.INCLUDES_RTOS + bld.env.INCLUDES_AFE)
-    cflags = bld.env.CFLAGS_FOXBMS
+    rtt_section_defines = [
+        '-DSEGGER_RTT_SECTION=".rtt"',
+        '-DSEGGER_RTT_BUFFER_SECTION=".rtt"',
+    ]
+    cflags = bld.env.CFLAGS_FOXBMS + rtt_section_defines
     target = f"{bld.env.APPNAME.lower()}-task"
 
     bld.stlib(

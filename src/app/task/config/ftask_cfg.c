@@ -80,6 +80,7 @@
 #include "redundancy.h"
 #include "rtc.h"
 #include "sbc.h"
+#include "segger_rtt.h"
 #include "sof_trapezoid.h"
 #include "spi.h"
 #include "sps.h"
@@ -90,18 +91,19 @@
 #include <stdint.h>
 
 /*========== Macros and Definitions =========================================*/
-#define LED_PERIODIC_CALL_TIME_ms (FTSK_TASK_CYCLIC_100MS_CYCLE_TIME)
-
-/** HET1 GIO register that the Debug LED is connected to. */
-#define LED_PORT (hetREG1)
-/** Pin of HET1 that the Debug LED is connected to. */
-#define LED_PIN (1u)
 
 /** counter value for 50ms in 10ms task */
 #define TASK_10MS_COUNTER_FOR_50MS (5u)
 
 /** counter value for 1s in 100ms task */
 #define TASK_100MS_COUNTER_FOR_1S (10u)
+
+/** Periodic call time of function #LED_Trigger */
+#define LED_PERIODIC_CALL_TIME_ms (FTSK_TASK_CYCLIC_100MS_CYCLE_TIME)
+
+/** HET1 GIO register that the Debug LED is connected to. */
+#define LED_PORT                                                       (hetREG1)
+/** Pin of HET1 that the Debug LED is connected to. */ #define LED_PIN (1u)
 
 /*========== Static Constant and Variable Definitions =======================*/
 
@@ -165,6 +167,7 @@ OS_TASK_DEFINITION_s ftsk_taskDefinitionAfe = {
 extern void FTSK_InitializeUserCodeEngine(void) {
     /* Warning: Do not change the content of this function */
     /* See function definition doxygen comment for details */
+    SEGGER_RTT_Init(); /* initialize RTT control block once at startup */
     STD_RETURN_TYPE_e retval = DATA_Initialize();
 
     if (retval == STD_NOT_OK) {
@@ -276,18 +279,20 @@ extern void FTSK_RunUserCodeCyclic100ms(void) {
     if (ftsk_cyclic100msCounter == TASK_100MS_COUNTER_FOR_1S) {
         SE_RunStateEstimations();
         ftsk_cyclic100msCounter = 0;
+
+        SEGGER_RTT_printf(0, "Hello World!\n");
     }
 
     BAL_Trigger();
     IMD_Trigger();
-    MINFO_CheckSupplyVoltageClamp30c();
 
-    /** Toggle Debug LED every 100ms */
     if (ftsk_cyclic100msCounter % 2 == 0) {
         IO_PinReset(&LED_PORT->DOUT, LED_PIN);
     } else {
         IO_PinSet(&LED_PORT->DOUT, LED_PIN);
     }
+    MINFO_CheckSupplyVoltageClamp30c();
+
     ftsk_cyclic100msCounter++;
 }
 

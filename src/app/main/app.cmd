@@ -120,6 +120,9 @@
 /* size of the FreeRTOS RAM; TODO does this have to fit to another value? */
 #define KERNEL_DATA_SIZE (0x800)
 
+/* size of dedicated RTT RAM window */
+#define RTT_RAM_SIZE (0x1000)
+
 /* size of shared-RAM section for DMA */
 #define SHARED_RAM_SIZE (0x2000)
 
@@ -144,8 +147,10 @@ MEMORY
                                    length = STACKS_SIZE
     KERNEL_DATA             (RW) : origin = end(STACKS)
                                    length = KERNEL_DATA_SIZE
-    RAM                     (RW) : origin = end(KERNEL_DATA)
-                                   length = (GLOBAL_RAM_SIZE - STACKS_SIZE - KERNEL_DATA_SIZE - SHARED_RAM_SIZE)
+    RTT_RAM                 (RW) : origin = end(KERNEL_DATA)
+                                   length = RTT_RAM_SIZE
+    RAM                     (RW) : origin = end(RTT_RAM)
+                                   length = (GLOBAL_RAM_SIZE - STACKS_SIZE - KERNEL_DATA_SIZE - RTT_RAM_SIZE - SHARED_RAM_SIZE)
     SHARED_RAM              (RW) : origin = end(RAM)
                                    length = SHARED_RAM_SIZE
 
@@ -184,6 +189,7 @@ SECTIONS
     .syscallTEXT        align(32) : {} > APP_FLASH
     .text               align(32) : {} > APP_FLASH
     .const              align(32) : {} > APP_FLASH
+    .rtt                align(32) : {} > RTT_RAM
     /* FreeRTOS Kernel data in protected region of RAM */
     .kernelBSS                    : {} > KERNEL_DATA
     .bss                          : {} > RAM

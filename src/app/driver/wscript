@@ -109,6 +109,8 @@ def build(bld):
         os.path.join("meas", "meas.c"),
         os.path.join("pex", "pex.c"),
         os.path.join("pwm", "pwm.c"),
+        os.path.join("rtt", "segger_rtt.c"),
+        os.path.join("rtt", "segger_rtt_printf.c"),
         os.path.join("rtc", "rtc.c"),
         os.path.join("sbc", "nxpfs85xx.c"),
         os.path.join("sbc", "sbc.c"),
@@ -150,6 +152,7 @@ def build(bld):
         "mcu",
         "pex",
         "pwm",
+        "rtt",
         "rtc",
         "sbc",
         os.path.join("sbc", "fs8x_driver"),
@@ -192,7 +195,11 @@ def build(bld):
         os.path.join("..", "..", "version"),
     ]
     includes.extend(bld.env.INCLUDES_RTOS + bld.env.INCLUDES_AFE + bld.env.INCLUDES_IMD)
-    cflags = bld.env.CFLAGS_FOXBMS
+    rtt_section_defines = [
+        '-DSEGGER_RTT_SECTION=".rtt"',
+        '-DSEGGER_RTT_BUFFER_SECTION=".rtt"',
+    ]
+    cflags = bld.env.CFLAGS_FOXBMS + rtt_section_defines
     target = f"{bld.env.APPNAME.lower()}-driver"
     use = [f"{bld.env.APPNAME.lower()}-afe-driver", f"{bld.env.APPNAME.lower()}-imd"]
     bld.stlib(
