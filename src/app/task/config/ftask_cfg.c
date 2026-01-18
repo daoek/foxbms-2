@@ -72,6 +72,7 @@
 #include "i2c.h"
 #include "imd.h"
 #include "interlock.h"
+#include "io.h"
 #include "led.h"
 #include "master_info.h"
 #include "meas.h"
@@ -89,6 +90,12 @@
 #include <stdint.h>
 
 /*========== Macros and Definitions =========================================*/
+#define LED_PERIODIC_CALL_TIME_ms (FTSK_TASK_CYCLIC_100MS_CYCLE_TIME)
+
+/** HET1 GIO register that the Debug LED is connected to. */
+#define LED_PORT (hetREG1)
+/** Pin of HET1 that the Debug LED is connected to. */
+#define LED_PIN (1u)
 
 /** counter value for 50ms in 10ms task */
 #define TASK_10MS_COUNTER_FOR_50MS (5u)
@@ -273,9 +280,14 @@ extern void FTSK_RunUserCodeCyclic100ms(void) {
 
     BAL_Trigger();
     IMD_Trigger();
-    LED_Trigger();
     MINFO_CheckSupplyVoltageClamp30c();
 
+    /** Toggle Debug LED every 100ms */
+    if (ftsk_cyclic100msCounter % 2 == 0) {
+        IO_PinReset(&LED_PORT->DOUT, LED_PIN);
+    } else {
+        IO_PinSet(&LED_PORT->DOUT, LED_PIN);
+    }
     ftsk_cyclic100msCounter++;
 }
 
