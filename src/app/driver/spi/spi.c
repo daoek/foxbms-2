@@ -186,6 +186,13 @@ static void SPI_InitializeChipSelectsAfe(uint8_t string) {
 }
 #endif
 
+#if defined(FOXBMS_AFE_DRIVER_RTT) && (FOXBMS_AFE_DRIVER_RTT == 1)
+static void SPI_InitializeChipSelectsAfe(uint8_t string) {
+    FAS_ASSERT(string < BS_NR_OF_STRINGS);
+    (void)string;
+}
+#endif
+
 #if defined(FOXBMS_AFE_DRIVER_LTC) && (FOXBMS_AFE_DRIVER_LTC == 1)
 static void SPI_InitializeChipSelectsAfe(uint8_t string) {
     FAS_ASSERT(string < BS_NR_OF_STRINGS);

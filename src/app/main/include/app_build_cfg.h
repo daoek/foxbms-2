@@ -77,6 +77,7 @@ typedef enum {
     NXP_MC33775A,
     MAXIM_MAX17852,
     DEBUG_DEFAULT,
+    RTT_DEBUG,
     ADI_ADES1830,
     ADI_ADBMS6832,
     TI_BQ79718,

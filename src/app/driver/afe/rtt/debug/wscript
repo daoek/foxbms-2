@@ -1,0 +1,46 @@
+# pyupgrade: keep
+#
+# Copyright (c) 2010 - 2025, Fraunhofer-Gesellschaft zur Foerderung der angewandten Forschung e.V.
+# All rights reserved.
+#
+# Confidential or no approval for publication
+
+"""Build Script: ./src/app/driver/afe/rtt/debug
+
+builds the default-variant of the rtt AFE"""
+
+import os
+
+
+def build(bld):
+    """builds the AFE driver library for RTT"""
+    source = [
+        os.path.join("api", "rtt_debug_afe.c"),
+        os.path.join("api", "rtt_debug_afe_dma.c"),
+        os.path.join("rtt_debug.c"),
+    ]
+    includes = [
+        os.path.join("..", "..", "..", "config"),
+        os.path.join("..", "..", "..", "io"),
+        os.path.join("..", "..", "..", "spi"),
+        os.path.join("..", "..", "..", "rtt"),  # Need RTT headers
+        os.path.join("..", "..", "..", "ts"),
+        os.path.join("..", "..", "..", "ts", "api"),
+        os.path.join("..", "..", "..", "mcu"),
+        os.path.join("..", "..", "..", "..", "application", "config"),
+        os.path.join("..", "..", "..", "..", "main", "include"),
+        os.path.join("..", "..", "..", "..", "engine", "config"),
+        os.path.join("..", "..", "..", "..", "engine", "database"),
+        os.path.join("..", "..", "..", "..", "engine", "diag"),
+        os.path.join("..", "..", "..", "..", "task", "os"),
+    ]
+    includes.extend(bld.env.INCLUDES_AFE)
+    includes.extend(bld.env.INCLUDES_RTOS)
+    cflags = bld.env.CFLAGS_FOXBMS
+    target = f"{bld.env.APPNAME.lower()}-afe-driver"
+    bld.stlib(
+        source=source,
+        includes=includes,
+        cflags=cflags,
+        target=target,
+    )

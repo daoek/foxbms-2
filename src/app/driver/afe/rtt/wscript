@@ -1,0 +1,15 @@
+# pyupgrade: keep
+#
+# Copyright (c) 2010 - 2025, Fraunhofer-Gesellschaft zur Foerderung der angewandten Forschung e.V.
+# All rights reserved.
+#
+# Confidential or no approval for publication
+
+"""Helper Build Script: ./src/app/driver/afe/rtt
+
+Helper script to recursively build the variant of the rtt AFE"""
+
+
+def build(bld):
+    """selects the driver library to be build"""
+    bld.recurse(bld.env.afe_ic)

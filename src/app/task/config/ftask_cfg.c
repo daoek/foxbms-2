@@ -227,7 +227,7 @@ extern void FTSK_InitializeUserCodePreCyclicTasks(void) {
     FAS_ASSERT(sys_retVal == SYS_OK);
 
     /* System started correctly -> Start toggling of debug LED */
-    LED_SetToggleTime(LED_NORMAL_OPERATION_ON_OFF_TIME_ms);
+    LED_SetToggleTime(LED_PERIODIC_CALL_TIME_ms);
 }
 
 extern void FTSK_RunUserCodeCyclic1ms(void) {
@@ -276,21 +276,60 @@ extern void FTSK_RunUserCodeCyclic100ms(void) {
      *  integration of current sensor is NOT used. Manual integration of current
      *  requires a higher frequency.
      */
-    if (ftsk_cyclic100msCounter == TASK_100MS_COUNTER_FOR_1S) {
+    if (ftsk_cyclic100msCounter == TASK_100MS_COUNTER_FOR_1S * 3u) {
         SE_RunStateEstimations();
-        ftsk_cyclic100msCounter = 0;
 
-        SEGGER_RTT_printf(0, "Hello World!\n");
+        /* cell temperatures database */
+        DATA_BLOCK_CELL_TEMPERATURE_s tableLocalEntryCellTemperatures = {
+            .header.uniqueId = DATA_BLOCK_ID_CELL_TEMPERATURE};
+        /* cell voltages database */
+        DATA_BLOCK_CELL_VOLTAGE_s tableLocalEntryCellVoltages = {.header.uniqueId = DATA_BLOCK_ID_CELL_VOLTAGE};
+        /* current sensor database */
+        DATA_BLOCK_CURRENT_SENSOR_s tableLocalEntryCurrentSensor = {.header.uniqueId = DATA_BLOCK_ID_CURRENT_SENSOR};
+        /* Read databases */
+        DATA_READ_DATA(&tableLocalEntryCellTemperatures, &tableLocalEntryCellVoltages, &tableLocalEntryCurrentSensor);
+
+        /* Print cell temperatures and voltages over RTT */
+        SEGGER_RTT_printf(0, "Cell temps (degC): ");
+        for (uint8_t i = 0; i < 8u; i++) {
+            int16_t temp      = tableLocalEntryCellTemperatures.cellTemperature_ddegC[0u][0u][i];
+            int16_t tempAbs   = (temp < 0) ? (int16_t)-temp : temp;
+            int16_t tempWhole = temp / 10;
+            int16_t tempFrac  = (int16_t)(tempAbs % 10);
+            SEGGER_RTT_printf(0, "%d.%d", (int)tempWhole, (int)tempFrac);
+            if (i < (8u - 1u)) {
+                SEGGER_RTT_printf(0, ",");
+            }
+        }
+        SEGGER_RTT_printf(0, "\n");
+
+        SEGGER_RTT_printf(0, "Cell voltages (mV): ");
+        for (uint8_t i = 0; i < 14u; i++) {
+            int16_t voltage = tableLocalEntryCellVoltages.cellVoltage_mV[0u][0u][i];
+            SEGGER_RTT_printf(0, "%d", (int)voltage);
+            if (i < (14u - 1u)) {
+                SEGGER_RTT_printf(0, ",");
+            }
+        }
+        SEGGER_RTT_printf(0, "\n");
+
+        SEGGER_RTT_printf(0, "Module voltage (mV): %d\n", (int)tableLocalEntryCellVoltages.moduleVoltage_mV[0u][0u]);
+
+        SEGGER_RTT_printf(0, "Current (mA): %d\n", (int)tableLocalEntryCurrentSensor.current_mA[0u]);
+
+        ftsk_cyclic100msCounter = 0;
     }
 
     BAL_Trigger();
     IMD_Trigger();
 
+    /*
     if (ftsk_cyclic100msCounter % 2 == 0) {
         IO_PinReset(&LED_PORT->DOUT, LED_PIN);
     } else {
         IO_PinSet(&LED_PORT->DOUT, LED_PIN);
     }
+    */
     MINFO_CheckSupplyVoltageClamp30c();
 
     ftsk_cyclic100msCounter++;

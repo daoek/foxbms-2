@@ -427,6 +427,9 @@ def configure(conf: ConfigurationContext):
         if slave_afe["ic"] == "can":
             afe_driver_type = "no-fsm"
             afe_ic_d = f"{afe_man.upper()}_CAN"
+    elif slave_afe["manufacturer"] == "rtt":
+        if slave_afe["ic"] == "debug":
+            afe_ic_d = f"{afe_man.upper()}_DEBUG"
     elif slave_afe["manufacturer"] == "maxim":
         if slave_afe["ic"] == "max17852":
             afe_ic_d = f"{afe_man.upper()}_MAX17852"

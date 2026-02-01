@@ -75,6 +75,7 @@ CONF_OPTIONS = {
             "ltc": ["6804-1", "6806", "6811-1", "6812-1", "6813-1"],
             "maxim": ["max17852"],
             "nxp": ["mc33775a"],
+            "rtt": ["debug"],
             "ti": ["dummy"],
         },
         "temperature-sensor": {

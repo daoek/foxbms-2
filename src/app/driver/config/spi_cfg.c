@@ -101,6 +101,10 @@ static spiDAT1_t spi_kAdiDataConfig[BS_NR_OF_STRINGS] = {
 /* no SPI data configuration needed */
 #endif
 
+#if defined(FOXBMS_AFE_DRIVER_RTT) && (FOXBMS_AFE_DRIVER_RTT == 1)
+/* no SPI data configuration needed */
+#endif
+
 #if defined(FOXBMS_AFE_DRIVER_LTC) && (FOXBMS_AFE_DRIVER_LTC == 1)
 /** SPI data configuration struct for LTC communication */
 static spiDAT1_t spi_kLtcDataConfig[BS_NR_OF_STRINGS] = {
@@ -207,6 +211,10 @@ SPI_INTERFACE_CONFIG_s spi_adiInterface[BS_NR_OF_STRINGS] = {
 #endif
 
 #if defined(FOXBMS_AFE_DRIVER_DEBUG) && (FOXBMS_AFE_DRIVER_DEBUG == 1)
+/* no SPI data configuration needed */
+#endif
+
+#if defined(FOXBMS_AFE_DRIVER_RTT) && (FOXBMS_AFE_DRIVER_RTT == 1)
 /* no SPI data configuration needed */
 #endif
 

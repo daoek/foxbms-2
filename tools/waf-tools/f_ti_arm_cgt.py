@@ -1626,6 +1626,9 @@ class create_app_build_cfg_source(Task.Task):  # pylint: disable=invalid-name
         elif afe_man == "debug":
             if afe_ic == "default":
                 afe_ic_d = f"{afe_man.upper()}_DEFAULT"
+        elif afe_man == "rtt":
+            if afe_ic == "debug":
+                afe_ic_d = f"{afe_man.upper()}_DEBUG"
         elif afe_man == "maxim":
             if afe_ic == "max17852":
                 afe_ic_d = f"{afe_man.upper()}_MAX17852"
