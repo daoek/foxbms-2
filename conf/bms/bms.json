@@ -19,13 +19,13 @@
   },
   "slave-unit": {
     "analog-front-end": {
-      "ic": "debug",
-      "manufacturer": "rtt"
+      "ic": "mc33775a",
+      "manufacturer": "nxp"
     },
     "temperature-sensor": {
-      "manufacturer": "epcos",
+      "manufacturer": "Fake",
       "method": "polynomial",
-      "model": "b57251v5103j060"
+      "model": "none"
     }
   }
 }
