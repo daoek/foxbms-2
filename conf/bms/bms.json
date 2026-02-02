@@ -23,7 +23,7 @@
       "manufacturer": "nxp"
     },
     "temperature-sensor": {
-      "manufacturer": "Fake",
+      "manufacturer": "fake",
       "method": "polynomial",
       "model": "none"
     }
