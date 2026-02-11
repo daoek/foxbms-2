@@ -63,7 +63,7 @@ function InstallHelper($env_dir) {
         Pop-Location
         exit 1
     }
-    $FALLBACK_SCRIPT = Join-Path "$PSScriptRoot" "cli" "fallback" "fallback.py"
+    $FALLBACK_SCRIPT = Join-Path $PSScriptRoot "cli\fallback\fallback.py"
     &$PYTHON "$FALLBACK_SCRIPT" "$env_dir"
     Pop-Location
     exit 1
@@ -77,7 +77,7 @@ $env:PREFIX = "C:\foxbms"
 # Name of the Python environment
 $env:ENV_NAME = "2025-03-pale-fox"
 
-$env:FOXBMS_PYTHON_ENV_DIRECTORY = Join-Path "$env:PREFIX" "envs" "$env:ENV_NAME"
+$env:FOXBMS_PYTHON_ENV_DIRECTORY = Join-Path (Join-Path $env:PREFIX "envs") $env:ENV_NAME
 
 $env:FOXBMS_PYTHON_ACTIVATION_SCRIPT_REL_PATH = "Scripts\activate.ps1"
 
